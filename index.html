@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Neon Heartbeat</title>
+<meta name="description" content="Nightcore romantic MV — Neon Heartbeat. Watch and download v4, v5, and the song." />
+<style>
+  :root {
+    --bg0: #050510; --bg1: #0d0a1f; --pink: #ff4fd8; --cyan: #4de8ff;
+    --violet: #9b6bff; --text: #f4f0ff; --muted: #a89cc8;
+    --card: rgba(20, 14, 40, 0.72); --border: rgba(157, 107, 255, 0.35);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; min-height: 100%; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 0%, rgba(255, 79, 216, 0.18), transparent 55%),
+      radial-gradient(ellipse 70% 45% at 90% 10%, rgba(77, 232, 255, 0.14), transparent 50%),
+      radial-gradient(ellipse 60% 40% at 50% 100%, rgba(155, 107, 255, 0.16), transparent 55%),
+      linear-gradient(180deg, var(--bg0), var(--bg1));
+    background-attachment: fixed;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+  header { text-align: center; margin-bottom: 2rem; }
+  .badge {
+    display: inline-block; font-size: 0.75rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--cyan);
+    border: 1px solid rgba(77, 232, 255, 0.4); border-radius: 999px;
+    padding: 0.35rem 0.9rem; margin-bottom: 1rem;
+    background: rgba(77, 232, 255, 0.08);
+  }
+  h1 {
+    font-size: clamp(2.2rem, 6vw, 3.4rem); font-weight: 800; margin: 0 0 0.5rem;
+    letter-spacing: -0.02em;
+    background: linear-gradient(115deg, var(--pink), var(--violet) 45%, var(--cyan));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .subtitle { color: var(--muted); font-size: 1.05rem; margin: 0 auto; max-width: 36rem; line-height: 1.5; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 1.25rem;
+    padding: 1.25rem 1.25rem 1.4rem; margin: 1.25rem 0;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03), 0 20px 50px rgba(0, 0, 0, 0.35);
+  }
+  .card h2 { margin: 0 0 0.35rem; font-size: 1.25rem; display: flex; align-items: center; gap: 0.6rem; }
+  .tag {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0.2rem 0.55rem; border-radius: 0.4rem;
+    background: linear-gradient(135deg, rgba(255, 79, 216, 0.25), rgba(77, 232, 255, 0.2));
+    border: 1px solid rgba(255, 79, 216, 0.35); color: var(--text);
+  }
+  .meta { color: var(--muted); font-size: 0.9rem; margin: 0 0 1rem; }
+  video {
+    width: 100%; border-radius: 0.85rem; background: #000; aspect-ratio: 16 / 9;
+    display: block; box-shadow: 0 0 30px rgba(155, 107, 255, 0.15);
+  }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;
+    text-decoration: none; font-weight: 700; font-size: 0.95rem;
+    padding: 0.75rem 1.2rem; border-radius: 0.75rem; border: none; cursor: pointer;
+    transition: transform 0.15s ease, filter 0.15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); filter: brightness(1.08); }
+  .btn-primary {
+    color: #12081f; background: linear-gradient(135deg, var(--pink), var(--cyan));
+    box-shadow: 0 8px 24px rgba(255, 79, 216, 0.3);
+  }
+  .btn-ghost {
+    color: var(--text); background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+  }
+  footer { text-align: center; color: var(--muted); font-size: 0.85rem; margin-top: 2.5rem; opacity: 0.85; }
+  footer span { color: var(--pink); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="badge">Nightcore · Romantic · Emotional</div>
+      <h1>Neon Heartbeat</h1>
+      <p class="subtitle">Watch both cuts of the MV, then grab the downloads — videos and the nightcore track.</p>
+    </header>
+
+    <section class="card">
+      <h2>Version 4 <span class="tag">Preview cut</span></h2>
+      <p class="meta">First cut that really synced with the song — neon mood, lyric timing, star-clip Hana.</p>
+      <video controls playsinline preload="metadata" src="media/v4.mp4"></video>
+      <div class="actions">
+        <a class="btn btn-primary" href="media/v4.mp4" download="Neon_Heartbeat_v4.mp4">Download v4</a>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Version 5 <span class="tag">Latest</span></h2>
+      <p class="meta">More camera motion, stronger beat cuts, chorus bursts and close-ups.</p>
+      <video controls playsinline preload="metadata" src="media/v5.mp4"></video>
+      <div class="actions">
+        <a class="btn btn-primary" href="media/v5.mp4" download="Neon_Heartbeat_v5.mp4">Download v5</a>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Song <span class="tag">MP3</span></h2>
+      <p class="meta">Neon Heartbeat — nightcore mix with sung vocals (~78s).</p>
+      <audio controls preload="metadata" src="media/song.mp3" style="width:100%; margin-bottom:0.75rem;"></audio>
+      <div class="actions">
+        <a class="btn btn-primary" href="media/song.mp3" download="neon_heartbeat_nightcore.mp3">Download song (MP3)</a>
+      </div>
+    </section>
+
+    <footer>Made for Mehmet · <span>Neon Heartbeat</span></footer>
+  </div>
+</body>
+</html>
