@@ -45,7 +45,7 @@
     backdrop-filter: blur(12px);
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03), 0 20px 50px rgba(0, 0, 0, 0.35);
   }
-  .card h2 { margin: 0 0 0.35rem; font-size: 1.25rem; display: flex; align-items: center; gap: 0.6rem; }
+  .card h2 { margin: 0 0 0.35rem; font-size: 1.25rem; display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
   .tag {
     font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
     padding: 0.2rem 0.55rem; border-radius: 0.4rem;
@@ -53,26 +53,23 @@
     border: 1px solid rgba(255, 79, 216, 0.35); color: var(--text);
   }
   .meta { color: var(--muted); font-size: 0.9rem; margin: 0 0 1rem; }
-  video {
-    width: 100%; border-radius: 0.85rem; background: #000; aspect-ratio: 16 / 9;
+  video, audio {
+    width: 100%; border-radius: 0.85rem; background: #000;
     display: block; box-shadow: 0 0 30px rgba(155, 107, 255, 0.15);
   }
-  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
+  video { aspect-ratio: 16 / 9; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; align-items: center; }
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;
     text-decoration: none; font-weight: 700; font-size: 0.95rem;
     padding: 0.75rem 1.2rem; border-radius: 0.75rem; border: none; cursor: pointer;
-    transition: transform 0.15s ease, filter 0.15s ease;
-  }
-  .btn:hover { transform: translateY(-1px); filter: brightness(1.08); }
-  .btn-primary {
-    color: #12081f; background: linear-gradient(135deg, var(--pink), var(--cyan));
+    transition: transform 0.15s ease, filter 0.15s ease; color: #12081f;
+    background: linear-gradient(135deg, var(--pink), var(--cyan));
     box-shadow: 0 8px 24px rgba(255, 79, 216, 0.3);
   }
-  .btn-ghost {
-    color: var(--text); background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-  }
+  .btn:hover { transform: translateY(-1px); filter: brightness(1.08); }
+  .btn:disabled { opacity: 0.55; cursor: wait; transform: none; filter: none; }
+  .status { color: var(--cyan); font-size: 0.85rem; min-height: 1.2em; }
   footer { text-align: center; color: var(--muted); font-size: 0.85rem; margin-top: 2.5rem; opacity: 0.85; }
   footer span { color: var(--pink); }
 </style>
@@ -88,31 +85,83 @@
     <section class="card">
       <h2>Version 4 <span class="tag">Preview cut</span></h2>
       <p class="meta">First cut that really synced with the song — neon mood, lyric timing, star-clip Hana.</p>
-      <video controls playsinline preload="metadata" src="media/v4.mp4"></video>
+      <video id="v4" controls playsinline preload="metadata"></video>
       <div class="actions">
-        <a class="btn btn-primary" href="media/v4.mp4" download="Neon_Heartbeat_v4.mp4">Download v4</a>
+        <button class="btn" id="dl4" type="button">Download v4</button>
+        <span class="status" id="st4">Loading video…</span>
       </div>
     </section>
 
     <section class="card">
       <h2>Version 5 <span class="tag">Latest</span></h2>
       <p class="meta">More camera motion, stronger beat cuts, chorus bursts and close-ups.</p>
-      <video controls playsinline preload="metadata" src="media/v5.mp4"></video>
+      <video id="v5" controls playsinline preload="metadata"></video>
       <div class="actions">
-        <a class="btn btn-primary" href="media/v5.mp4" download="Neon_Heartbeat_v5.mp4">Download v5</a>
+        <button class="btn" id="dl5" type="button">Download v5</button>
+        <span class="status" id="st5">Loading video…</span>
       </div>
     </section>
 
     <section class="card">
       <h2>Song <span class="tag">MP3</span></h2>
       <p class="meta">Neon Heartbeat — nightcore mix with sung vocals (~78s).</p>
-      <audio controls preload="metadata" src="media/song.mp3" style="width:100%; margin-bottom:0.75rem;"></audio>
+      <audio id="song" controls preload="metadata"></audio>
       <div class="actions">
-        <a class="btn btn-primary" href="media/song.mp3" download="neon_heartbeat_nightcore.mp3">Download song (MP3)</a>
+        <button class="btn" id="dls" type="button">Download song (MP3)</button>
+        <span class="status" id="sts">Loading song…</span>
       </div>
     </section>
 
     <footer>Made for Mehmet · <span>Neon Heartbeat</span></footer>
   </div>
+<script>
+const ASSETS = {
+  v4: { parts: 11, prefix: "media/chunks/v4.", mime: "video/mp4", name: "Neon_Heartbeat_v4.mp4", video: "v4", status: "st4", dl: "dl4" },
+  v5: { parts: 14, prefix: "media/chunks/v5.", mime: "video/mp4", name: "Neon_Heartbeat_v5.mp4", video: "v5", status: "st5", dl: "dl5" },
+  song: { parts: 1, prefix: "media/chunks/song", mime: "audio/mpeg", name: "neon_heartbeat_nightcore.mp3", video: "song", status: "sts", dl: "dls", single: true }
+};
+
+function pad2(n) { return String(n).padStart(2, "0"); }
+
+async function loadAsset(key) {
+  const a = ASSETS[key];
+  const st = document.getElementById(a.status);
+  const el = document.getElementById(a.video);
+  const btn = document.getElementById(a.dl);
+  btn.disabled = true;
+  try {
+    const chunks = [];
+    for (let i = 0; i < a.parts; i++) {
+      st.textContent = `Loading ${key}: part ${i + 1}/${a.parts}…`;
+      const url = a.single ? (a.prefix + ".b64") : (a.prefix + pad2(i) + ".b64");
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("HTTP " + res.status + " for " + url);
+      const b64 = (await res.text()).replace(/\s+/g, "");
+      const bin = atob(b64);
+      const bytes = new Uint8Array(bin.length);
+      for (let j = 0; j < bin.length; j++) bytes[j] = bin.charCodeAt(j);
+      chunks.push(bytes);
+    }
+    const blob = new Blob(chunks, { type: a.mime });
+    const obj = URL.createObjectURL(blob);
+    el.src = obj;
+    st.textContent = "Ready";
+    btn.disabled = false;
+    btn.onclick = () => {
+      const link = document.createElement("a");
+      link.href = obj;
+      link.download = a.name;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    };
+  } catch (e) {
+    console.error(e);
+    st.textContent = "Failed to load: " + e.message;
+  }
+}
+
+Promise.all([loadAsset("v4"), loadAsset("v5"), loadAsset("song")]);
+</script>
 </body>
 </html>
