@@ -3,139 +3,443 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Neon Heartbeat</title>
-<meta name="description" content="Nightcore romantic MV — Neon Heartbeat. Watch and download v6 (animated lyrics), v5, v4, and the song." />
+<title>Neon Heartbeat — Nightcore MV</title>
+<meta name="description" content="Neon Heartbeat — original nightcore romantic MV for Hana. Watch v6 with animated lyrics, download the video and song." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --bg0: #050510; --bg1: #0d0a1f; --pink: #ff4fd8; --cyan: #4de8ff;
-    --violet: #9b6bff; --text: #f4f0ff; --muted: #a89cc8;
-    --card: rgba(20, 14, 40, 0.72); --border: rgba(157, 107, 255, 0.35);
+    --bg: #05050c;
+    --bg-elev: #0c0b16;
+    --ink: #f2ecff;
+    --muted: #9a91b5;
+    --pink: #ff4dd2;
+    --cyan: #40f2ff;
+    --lav: #c4a8ff;
+    --line: rgba(196, 168, 255, 0.18);
+    --frame: rgba(255, 77, 210, 0.35);
+    --ok: #7dffb3;
+    --radius: 18px;
+    --max: 980px;
   }
   * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; min-height: 100%; }
+  html { scroll-behavior: smooth; }
   body {
-    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-    color: var(--text);
+    margin: 0;
+    min-height: 100%;
+    color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    background: var(--bg);
+    overflow-x: hidden;
+  }
+  a { color: var(--cyan); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Atmosphere */
+  .sky {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
     background:
-      radial-gradient(ellipse 80% 50% at 20% 0%, rgba(255, 79, 216, 0.18), transparent 55%),
-      radial-gradient(ellipse 70% 45% at 90% 10%, rgba(77, 232, 255, 0.14), transparent 50%),
-      radial-gradient(ellipse 60% 40% at 50% 100%, rgba(155, 107, 255, 0.16), transparent 55%),
-      linear-gradient(180deg, var(--bg0), var(--bg1));
-    background-attachment: fixed;
+      radial-gradient(ellipse 70% 45% at 50% 0%, rgba(255, 77, 210, 0.12), transparent 55%),
+      radial-gradient(ellipse 50% 40% at 85% 70%, rgba(64, 242, 255, 0.07), transparent 50%),
+      radial-gradient(ellipse 40% 35% at 10% 80%, rgba(196, 168, 255, 0.08), transparent 50%),
+      var(--bg);
   }
-  .wrap { max-width: 920px; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
-  header { text-align: center; margin-bottom: 2rem; }
-  .badge {
-    display: inline-block; font-size: 0.75rem; letter-spacing: 0.18em;
-    text-transform: uppercase; color: var(--cyan);
-    border: 1px solid rgba(77, 232, 255, 0.4); border-radius: 999px;
-    padding: 0.35rem 0.9rem; margin-bottom: 1rem;
-    background: rgba(77, 232, 255, 0.08);
+  #rain, #sparks {
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    width: 100%; height: 100%;
   }
-  h1 {
-    font-size: clamp(2.2rem, 6vw, 3.4rem); font-weight: 800; margin: 0 0 0.5rem;
-    letter-spacing: -0.02em;
-    background: linear-gradient(115deg, var(--pink), var(--violet) 45%, var(--cyan));
-    -webkit-background-clip: text; background-clip: text; color: transparent;
+  #rain { opacity: 0.35; }
+  #sparks { opacity: 0.55; }
+
+  .page { position: relative; z-index: 2; }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    min-height: clamp(300px, 48vh, 480px);
+    display: grid;
+    align-items: end;
   }
-  .subtitle { color: var(--muted); font-size: 1.05rem; margin: 0 auto; max-width: 36rem; line-height: 1.5; }
-  .card {
-    background: var(--card); border: 1px solid var(--border); border-radius: 1.25rem;
-    padding: 1.25rem 1.25rem 1.4rem; margin: 1.25rem 0;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03), 0 20px 50px rgba(0, 0, 0, 0.35);
+  .hero-art {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(5,5,12,0.2) 0%, rgba(5,5,12,0.25) 35%, rgba(5,5,12,0.75) 62%, rgba(5,5,12,0.98) 82%, var(--bg) 100%),
+      linear-gradient(90deg, rgba(5,5,12,0.45) 0%, transparent 40%, transparent 70%, rgba(5,5,12,0.35) 100%),
+      url("assets/hero.webp") center 22% / cover no-repeat;
   }
-  .card.latest {
-    border-color: rgba(255, 79, 216, 0.55);
-    box-shadow: 0 0 0 1px rgba(255, 79, 216, 0.12), 0 20px 50px rgba(255, 79, 216, 0.18);
+  .hero-inner {
+    position: relative;
+    width: min(var(--max), calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 2.6rem 0 1.25rem;
   }
-  .card h2 { margin: 0 0 0.35rem; font-size: 1.25rem; display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
-  .tag {
-    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-    padding: 0.2rem 0.55rem; border-radius: 0.4rem;
-    background: linear-gradient(135deg, rgba(255, 79, 216, 0.25), rgba(77, 232, 255, 0.2));
-    border: 1px solid rgba(255, 79, 216, 0.35); color: var(--text);
+  .eyebrow {
+    display: inline-flex; gap: 0.55rem; align-items: center;
+    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--cyan); font-weight: 500; margin-bottom: 0.85rem;
   }
-  .tag.latest {
-    background: linear-gradient(135deg, rgba(255, 79, 216, 0.45), rgba(77, 232, 255, 0.35));
-    border-color: rgba(255, 79, 216, 0.6);
+  .eyebrow::before {
+    content: ""; width: 1.4rem; height: 1px; background: var(--cyan); opacity: 0.7;
   }
-  .meta { color: var(--muted); font-size: 0.9rem; margin: 0 0 1rem; }
-  video, audio {
-    width: 100%; border-radius: 0.85rem; background: #000;
-    display: block; box-shadow: 0 0 30px rgba(155, 107, 255, 0.15);
+  h1.display {
+    font-family: "Bagel Fat One", system-ui, sans-serif;
+    font-weight: 400;
+    font-size: clamp(2.7rem, 8vw, 4.8rem);
+    line-height: 0.95;
+    letter-spacing: 0.01em;
+    margin: 0 0 0.65rem;
+    color: #ffe6fa;
+    text-shadow:
+      0 0 18px rgba(255, 77, 210, 0.55),
+      0 0 48px rgba(255, 77, 210, 0.28),
+      0 2px 0 rgba(26, 0, 51, 0.8);
   }
-  video { aspect-ratio: 16 / 9; }
-  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; align-items: center; }
+  .tagline {
+    max-width: 28rem;
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.05rem;
+    line-height: 1.55;
+  }
+  .tagline strong { color: var(--lav); font-weight: 500; }
+
+  .wrap {
+    width: min(var(--max), calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 0 0 4.5rem;
+  }
+
+  /* Featured */
+  .featured {
+    margin-top: -0.5rem;
+    background: linear-gradient(180deg, rgba(12,11,22,0.72), rgba(12,11,22,0.95));
+    border: 1px solid var(--line);
+    border-radius: calc(var(--radius) + 4px);
+    padding: 1.1rem;
+    box-shadow: 0 18px 48px rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+  }
+  .featured-head {
+    display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+    gap: 0.6rem 1rem; margin-bottom: 0.85rem; padding: 0.15rem 0.35rem;
+  }
+  .featured-head h2 {
+    margin: 0; font-size: 1.05rem; font-weight: 600; letter-spacing: 0.02em;
+  }
+  .pill {
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--pink);
+    border: 1px solid rgba(255, 77, 210, 0.4);
+    background: rgba(255, 77, 210, 0.08);
+    border-radius: 999px; padding: 0.28rem 0.7rem;
+  }
+  .player-frame {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid rgba(255,77,210,0.22);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  }
+  .player-frame video {
+    display: block; width: 100%; aspect-ratio: 16 / 9; background: #000;
+  }
+  .player-overlay {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    background: rgba(5,5,12,0.55);
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+  }
+  .player-overlay.hidden { opacity: 0; }
+  .player-overlay .pct {
+    font-family: "Bagel Fat One", system-ui, sans-serif;
+    font-size: 2.4rem; color: var(--ink);
+    text-shadow: 0 0 20px rgba(255,77,210,0.5);
+  }
+  .player-overlay .hint {
+    position: absolute; bottom: 1.1rem; left: 0; right: 0;
+    text-align: center; color: var(--muted); font-size: 0.85rem;
+  }
+
+  .progress.done { opacity: 0; height: 0; margin: 0; }
+  .progress {
+    margin-top: 0.85rem;
+    height: 4px; border-radius: 999px;
+    background: rgba(255,255,255,0.06);
+    overflow: hidden;
+  }
+  .progress > i {
+    display: block; height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--pink), var(--cyan));
+    border-radius: inherit;
+    transition: width 0.25s ease;
+  }
+  .status-row {
+    display: flex; justify-content: space-between; gap: 1rem;
+    margin-top: 0.45rem; font-size: 0.82rem; color: var(--muted);
+  }
+  .status-row .ready { color: var(--ok); }
+
+  .actions {
+    display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.1rem; align-items: center;
+  }
   .btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;
-    text-decoration: none; font-weight: 700; font-size: 0.95rem;
-    padding: 0.75rem 1.2rem; border-radius: 0.75rem; border: none; cursor: pointer;
-    transition: transform 0.15s ease, filter 0.15s ease; color: #12081f;
-    background: linear-gradient(135deg, var(--pink), var(--cyan));
-    box-shadow: 0 8px 24px rgba(255, 79, 216, 0.3);
+    appearance: none; border: 0; cursor: pointer;
+    font-family: inherit; font-weight: 600; font-size: 0.95rem;
+    padding: 0.85rem 1.35rem; border-radius: 999px;
+    color: #12081f;
+    background: var(--pink);
+    box-shadow: 0 0 24px rgba(255, 77, 210, 0.35);
+    transition: transform 0.15s ease, filter 0.15s ease, opacity 0.15s ease;
   }
-  .btn:hover { transform: translateY(-1px); filter: brightness(1.08); }
-  .btn:disabled { opacity: 0.55; cursor: wait; transform: none; filter: none; }
-  .status { color: var(--cyan); font-size: 0.85rem; min-height: 1.2em; }
-  footer { text-align: center; color: var(--muted); font-size: 0.85rem; margin-top: 2.5rem; opacity: 0.85; }
-  footer span { color: var(--pink); }
+  .btn:hover:not(:disabled) { filter: brightness(1.08); transform: translateY(-1px); }
+  .btn:disabled {
+    opacity: 0.45; cursor: not-allowed; transform: none;
+    box-shadow: none; filter: grayscale(0.2);
+  }
+  .btn.ghost {
+    background: transparent; color: var(--ink);
+    border: 1px solid var(--line);
+    box-shadow: none;
+  }
+  .btn.ghost:hover:not(:disabled) { border-color: var(--cyan); color: var(--cyan); filter: none; }
+
+  /* Song strip */
+  .song {
+    margin-top: 1.25rem;
+    display: grid; gap: 0.85rem;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 1rem 1.15rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: rgba(12,11,22,0.65);
+  }
+  .song h3 { margin: 0 0 0.2rem; font-size: 0.95rem; font-weight: 600; }
+  .song p { margin: 0; color: var(--muted); font-size: 0.85rem; }
+  .song audio { width: 100%; margin-top: 0.55rem; height: 36px; }
+  @media (max-width: 640px) {
+    .song { grid-template-columns: 1fr; }
+  }
+
+  /* Sections */
+  section.block { margin-top: 2.75rem; }
+  section.block > h2 {
+    font-family: "Bagel Fat One", system-ui, sans-serif;
+    font-weight: 400; font-size: 1.65rem; margin: 0 0 0.35rem;
+    color: #ffe6fa;
+    text-shadow: 0 0 16px rgba(255,77,210,0.35);
+  }
+  section.block > .lead {
+    margin: 0 0 1.1rem; color: var(--muted); font-size: 0.95rem;
+  }
+
+  /* Earlier cuts */
+  .cuts {
+    display: grid; gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 720px) { .cuts { grid-template-columns: 1fr; } }
+  .cut {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: rgba(12,11,22,0.55);
+    padding: 0.85rem;
+  }
+  .cut h3 {
+    margin: 0 0 0.25rem; font-size: 0.95rem; font-weight: 600;
+    display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;
+  }
+  .cut .meta { margin: 0 0 0.65rem; color: var(--muted); font-size: 0.8rem; line-height: 1.4; }
+  .cut video {
+    width: 100%; aspect-ratio: 16/9; border-radius: 10px; background: #000;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .cut .actions { margin-top: 0.7rem; }
+  .cut .btn { padding: 0.65rem 1rem; font-size: 0.85rem; }
+  .cut .st { font-size: 0.75rem; color: var(--muted); }
+  .cut .st.ready { color: var(--ok); }
+
+  /* Lyrics */
+  .lyrics {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: rgba(12,11,22,0.55);
+    padding: 1.25rem 1.35rem 1.4rem;
+  }
+  .lyrics details { border-top: 1px solid var(--line); padding: 0.75rem 0 0.15rem; }
+  .lyrics details:first-of-type { border-top: 0; padding-top: 0; }
+  .lyrics summary {
+    cursor: pointer; list-style: none; font-weight: 600; font-size: 0.9rem;
+    color: var(--lav); letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .lyrics summary::-webkit-details-marker { display: none; }
+  .lyrics summary::after { content: "+"; float: right; color: var(--muted); font-weight: 400; }
+  .lyrics details[open] summary::after { content: "–"; }
+  .lyrics pre {
+    margin: 0.65rem 0 0.35rem; white-space: pre-wrap; font-family: inherit;
+    color: var(--ink); font-size: 0.98rem; line-height: 1.65; opacity: 0.92;
+  }
+
+  
+  .frame-cta {
+    position: absolute; right: 0.85rem; bottom: 3.1rem; z-index: 3;
+    display: none;
+  }
+  .frame-cta.show { display: block; }
+  .frame-cta .btn { box-shadow: 0 8px 28px rgba(0,0,0,0.45), 0 0 20px rgba(255,77,210,0.35); }
+  @media (max-width: 640px) {
+    .frame-cta { bottom: 3.4rem; right: 0.65rem; }
+    .frame-cta .btn { padding: 0.7rem 1.05rem; font-size: 0.85rem; }
+  }
+
+  footer {
+    text-align: center; color: var(--muted); font-size: 0.82rem;
+    padding: 2rem 1rem 3rem; opacity: 0.85;
+  }
+  footer em { font-style: normal; color: var(--pink); }
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="badge">Nightcore · Romantic · Emotional</div>
-      <h1>Neon Heartbeat</h1>
-      <p class="subtitle">Watch the MV cuts, then grab the downloads — videos and the nightcore track.</p>
+  <div class="sky" aria-hidden="true"></div>
+  <canvas id="rain" aria-hidden="true"></canvas>
+  <canvas id="sparks" aria-hidden="true"></canvas>
+
+  <div class="page">
+    <header class="hero">
+      <div class="hero-art" role="img" aria-label="Hana in neon light — Neon Heartbeat chorus still"></div>
+      <div class="hero-inner">
+        <div class="eyebrow">Original nightcore · for Hana</div>
+        <h1 class="display">NEON HEARTBEAT</h1>
+        <p class="tagline">A short romantic MV with <strong>animated lyrics</strong> — rain, stations, and a pulse you can hear.</p>
+      </div>
     </header>
 
-    <section class="card latest">
-      <h2>Version 6 <span class="tag latest">Latest · Animated lyrics</span></h2>
-      <p class="meta">Kinetic typography cook — sung-accurate timing, letter-slam chorus, color-safe composite. Face-clear lyric placement.</p>
-      <video id="v6" controls playsinline preload="metadata"></video>
-      <div class="actions">
-        <button class="btn" id="dl6" type="button">Download v6</button>
-        <span class="status" id="st6">Loading video…</span>
-      </div>
-    </section>
+    <main class="wrap">
+      <section class="featured" aria-labelledby="feat-title">
+        <div class="featured-head">
+          <h2 id="feat-title">Version 6</h2>
+          <span class="pill">Latest · kinetic lyrics</span>
+        </div>
+        <div class="player-frame">
+          <video id="v6" controls playsinline preload="metadata"></video>
+          <div class="player-overlay" id="v6-overlay">
+            <div class="pct" id="v6-pct">0%</div>
+            <div class="hint">Assembling 1080p…</div>
+          </div>
+          <div class="frame-cta" id="v6-frame-cta">
+            <button class="btn" id="dl6-frame" type="button" disabled>Download</button>
+          </div>
+        </div>
+        <div class="progress" aria-hidden="true"><i id="v6-bar"></i></div>
+        <div class="status-row">
+          <span id="st6">Starting…</span>
+          <span id="v6-detail"></span>
+        </div>
+        <div class="actions">
+          <button class="btn" id="dl6" type="button" disabled>Download v6</button>
+          <a class="btn ghost" href="#lyrics">Read lyrics</a>
+        </div>
+      </section>
 
-    <section class="card">
-      <h2>Version 5 <span class="tag">Previous</span></h2>
-      <p class="meta">More camera motion, stronger beat cuts, chorus bursts and close-ups.</p>
-      <video id="v5" controls playsinline preload="metadata"></video>
-      <div class="actions">
-        <button class="btn" id="dl5" type="button">Download v5</button>
-        <span class="status" id="st5">Loading video…</span>
-      </div>
-    </section>
+      <section class="song" aria-label="Song download">
+        <div>
+          <h3>Nightcore mix · MP3</h3>
+          <p>~78 seconds · sung vocals · −14 LUFS</p>
+          <audio id="song" controls preload="metadata"></audio>
+        </div>
+        <button class="btn ghost" id="dls" type="button" disabled>Download MP3</button>
+        <span class="st" id="sts" style="grid-column:1/-1;font-size:0.8rem;color:var(--muted)"></span>
+      </section>
 
-    <section class="card">
-      <h2>Version 4 <span class="tag">Preview cut</span></h2>
-      <p class="meta">First cut that really synced with the song — neon mood, lyric timing, star-clip Hana.</p>
-      <video id="v4" controls playsinline preload="metadata"></video>
-      <div class="actions">
-        <button class="btn" id="dl4" type="button">Download v4</button>
-        <span class="status" id="st4">Loading video…</span>
-      </div>
-    </section>
+      <section class="block" id="lyrics" aria-labelledby="lyrics-title">
+        <h2 id="lyrics-title">Lyrics</h2>
+        <p class="lead">As sung on the nightcore master.</p>
+        <div class="lyrics">
+          <details>
+            <summary>Intro / Verse</summary>
+            <pre>Rain on the glass, counting to three
+Your name in the neon keeps finding me
 
-    <section class="card">
-      <h2>Song <span class="tag">MP3</span></h2>
-      <p class="meta">Neon Heartbeat — nightcore mix with sung vocals (~78s).</p>
-      <audio id="song" controls preload="metadata"></audio>
-      <div class="actions">
-        <button class="btn" id="dls" type="button">Download song (MP3)</button>
-        <span class="status" id="sts">Loading song…</span>
-      </div>
-    </section>
+Headphones up past the station glow
+Rewinding almost from nights ago
+You laugh when summer sneaks into the cold
+Suddenly I'm not alone</pre>
+          </details>
+          <details>
+            <summary>Pre-Chorus</summary>
+            <pre>Pulse in my throat, light on my face
+If I stay quiet, I'll lose this place</pre>
+          </details>
+          <details open>
+            <summary>Chorus</summary>
+            <pre>Can you hear my neon heartbeat?
+Racing through the rain for you
+Streetlight sparks and silver streets
+Every glow is pulling me to you
+Don't let this night fall through
+I'm falling in the glow with you
+Neon heartbeat — it's you
 
-    <footer>Made for Mehmet · <span>Neon Heartbeat</span></footer>
+Oh-oh — can you feel it too?
+Oh-oh — neon heartbeat</pre>
+          </details>
+          <details>
+            <summary>Bridge</summary>
+            <pre>Just your hand when the red light turns
+Say my name one more time
+Let the rain rewrite what burns</pre>
+          </details>
+          <details>
+            <summary>Final Chorus / Outro</summary>
+            <pre>Can you hear my neon heartbeat?
+Louder than the rain on you
+Puddle stars and silver streets
+Every glow swears that I found you
+Don't let this night fall through
+I'm falling in the glow with you
+Neon heartbeat — it's you
+
+Raindrops slow… the world feels new
+City lights keep whispering — it's you</pre>
+          </details>
+        </div>
+      </section>
+
+      <section class="block" aria-labelledby="cuts-title">
+        <h2 id="cuts-title">Earlier cuts</h2>
+        <p class="lead">Previous edits kept for comparison.</p>
+        <div class="cuts">
+          <article class="cut">
+            <h3>Version 5 <span class="pill" style="color:var(--muted);border-color:var(--line);background:transparent">Prev</span></h3>
+            <p class="meta">More camera motion, stronger beat cuts, chorus bursts.</p>
+            <video id="v5" controls playsinline preload="none"></video>
+            <div class="actions">
+              <button class="btn ghost" id="dl5" type="button" disabled>Download v5</button>
+              <span class="st" id="st5">Queued…</span>
+            </div>
+          </article>
+          <article class="cut">
+            <h3>Version 4 <span class="pill" style="color:var(--muted);border-color:var(--line);background:transparent">Prev</span></h3>
+            <p class="meta">First cut that locked the neon mood and lyric timing.</p>
+            <video id="v4" controls playsinline preload="none"></video>
+            <div class="actions">
+              <button class="btn ghost" id="dl4" type="button" disabled>Download v4</button>
+              <span class="st" id="st4">Queued…</span>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>Made for Mehmet · <em>Neon Heartbeat</em></footer>
   </div>
+
 <script>
 const ROOT = "https://raw.githubusercontent.com/MehmetMilly/neon-heartbeat/main/";
 const ASSETS = {
-  v6: { parts: 19, prefix: ROOT + "media/chunks/v6.", mime: "video/mp4", name: "Neon_Heartbeat_v6.mp4", video: "v6", status: "st6", dl: "dl6" },
+  v6: { parts: 19, prefix: ROOT + "media/chunks/v6.", mime: "video/mp4", name: "Neon_Heartbeat_v6.mp4", video: "v6", status: "st6", dl: "dl6", featured: true },
   v5: { parts: 14, prefix: ROOT + "media/chunks/v5.", mime: "video/mp4", name: "Neon_Heartbeat_v5.mp4", video: "v5", status: "st5", dl: "dl5" },
   v4: { parts: 11, prefix: ROOT + "media/chunks/v4.", mime: "video/mp4", name: "Neon_Heartbeat_v4.mp4", video: "v4", status: "st4", dl: "dl4" },
   song: { parts: 1, prefix: ROOT + "media/chunks/song", mime: "audio/mpeg", name: "neon_heartbeat_nightcore.mp3", video: "song", status: "sts", dl: "dls", single: true }
@@ -143,45 +447,129 @@ const ASSETS = {
 
 function pad2(n) { return String(n).padStart(2, "0"); }
 
+function setProgress(key, done, total) {
+  if (key !== "v6") return;
+  const pct = total ? Math.round((done / total) * 100) : 0;
+  const bar = document.getElementById("v6-bar");
+  const label = document.getElementById("v6-pct");
+  const detail = document.getElementById("v6-detail");
+  if (bar) bar.style.width = pct + "%";
+  if (label) label.textContent = pct + "%";
+  if (detail) detail.textContent = done < total ? (done + "/" + total + " parts") : "";
+}
+
 async function loadAsset(key) {
   const a = ASSETS[key];
   const st = document.getElementById(a.status);
   const el = document.getElementById(a.video);
   const btn = document.getElementById(a.dl);
+  const overlay = a.featured ? document.getElementById("v6-overlay") : null;
   btn.disabled = true;
   try {
     const chunks = [];
     for (let i = 0; i < a.parts; i++) {
-      st.textContent = `Loading ${key}: part ${i + 1}/${a.parts}…`;
+      st.textContent = a.featured
+        ? ("Loading… " + Math.round(((i) / a.parts) * 100) + "%")
+        : ("Loading " + key + " " + (i + 1) + "/" + a.parts);
+      setProgress(key, i, a.parts);
       const url = a.single ? (a.prefix + ".b64") : (a.prefix + pad2(i) + ".b64");
       const res = await fetch(url);
-      if (!res.ok) throw new Error("HTTP " + res.status + " for " + url);
+      if (!res.ok) throw new Error("HTTP " + res.status);
       const b64 = (await res.text()).replace(/\s+/g, "");
       const bin = atob(b64);
       const bytes = new Uint8Array(bin.length);
       for (let j = 0; j < bin.length; j++) bytes[j] = bin.charCodeAt(j);
       chunks.push(bytes);
+      setProgress(key, i + 1, a.parts);
     }
     const blob = new Blob(chunks, { type: a.mime });
     const obj = URL.createObjectURL(blob);
     el.src = obj;
-    st.textContent = "Ready";
-    btn.disabled = false;
-    btn.onclick = () => {
-      const link = document.createElement("a");
-      link.href = obj;
-      link.download = a.name;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
+    st.textContent = a.featured ? "Ready" : "Ready";
+    if (overlay) overlay.classList.add("hidden");
+    const barWrap = document.querySelector(".progress");
+    if (a.featured && barWrap) barWrap.classList.add("done");
+    if (st) st.classList.add("ready");
+    const enableDl = (b) => {
+      if (!b) return;
+      b.disabled = false;
+      b.onclick = () => {
+        const link = document.createElement("a");
+        link.href = obj;
+        link.download = a.name;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      };
     };
+    enableDl(btn);
+    if (a.featured) {
+      const fb = document.getElementById("dl6-frame");
+      const wrap = document.getElementById("v6-frame-cta");
+      enableDl(fb);
+      if (wrap) wrap.classList.add("show");
+    }
+    return obj;
   } catch (e) {
     console.error(e);
-    st.textContent = "Failed to load: " + e.message;
+    st.textContent = "Failed: " + e.message;
+    if (overlay) {
+      document.getElementById("v6-pct").textContent = "!";
+      overlay.querySelector(".hint").textContent = "Could not load video";
+    }
   }
 }
 
-Promise.all([loadAsset("v6"), loadAsset("v5"), loadAsset("v4"), loadAsset("song")]);
+/* Lightweight rain + sparks */
+(function atmosphere() {
+  const rain = document.getElementById("rain");
+  const sparks = document.getElementById("sparks");
+  const rc = rain.getContext("2d");
+  const sc = sparks.getContext("2d");
+  let w, h, drops, dots, raf;
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function resize() {
+    w = rain.width = sparks.width = innerWidth;
+    h = rain.height = sparks.height = innerHeight;
+    drops = Array.from({ length: Math.min(70, Math.floor(w / 18)) }, () => ({
+      x: Math.random() * w, y: Math.random() * h, l: 8 + Math.random() * 14, s: 4 + Math.random() * 7
+    }));
+    dots = Array.from({ length: 18 }, () => ({
+      x: Math.random() * w, y: Math.random() * h, r: 0.6 + Math.random() * 1.6,
+      a: Math.random(), da: 0.004 + Math.random() * 0.01, c: Math.random() > 0.5 ? "#ff4dd2" : "#40f2ff"
+    }));
+  }
+  function frame() {
+    rc.clearRect(0, 0, w, h);
+    rc.strokeStyle = "rgba(180, 200, 255, 0.28)";
+    rc.lineWidth = 1;
+    for (const d of drops) {
+      rc.beginPath(); rc.moveTo(d.x, d.y); rc.lineTo(d.x - 1.2, d.y + d.l); rc.stroke();
+      d.y += d.s; d.x -= 0.35;
+      if (d.y > h) { d.y = -20; d.x = Math.random() * w; }
+    }
+    sc.clearRect(0, 0, w, h);
+    for (const p of dots) {
+      p.a += p.da; if (p.a > 1 || p.a < 0) p.da *= -1;
+      sc.globalAlpha = 0.15 + 0.45 * Math.abs(Math.sin(p.a * Math.PI));
+      sc.fillStyle = p.c;
+      sc.beginPath(); sc.arc(p.x, p.y, p.r, 0, Math.PI * 2); sc.fill();
+    }
+    sc.globalAlpha = 1;
+    raf = requestAnimationFrame(frame);
+  }
+  resize();
+  addEventListener("resize", resize);
+  if (!reduce) frame();
+})();
+
+/* Load featured first, then the rest */
+(async () => {
+  await loadAsset("v6");
+  loadAsset("song");
+  // Defer earlier cuts slightly so v6 stays responsive
+  setTimeout(() => { loadAsset("v5"); loadAsset("v4"); }, 400);
+})();
 </script>
 </body>
 </html>
