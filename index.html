@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Neon Heartbeat</title>
-<meta name="description" content="Nightcore romantic MV — Neon Heartbeat. Watch and download v4, v5, and the song." />
+<meta name="description" content="Nightcore romantic MV — Neon Heartbeat. Watch and download v6 (animated lyrics), v5, v4, and the song." />
 <style>
   :root {
     --bg0: #050510; --bg1: #0d0a1f; --pink: #ff4fd8; --cyan: #4de8ff;
@@ -45,12 +45,20 @@
     backdrop-filter: blur(12px);
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03), 0 20px 50px rgba(0, 0, 0, 0.35);
   }
+  .card.latest {
+    border-color: rgba(255, 79, 216, 0.55);
+    box-shadow: 0 0 0 1px rgba(255, 79, 216, 0.12), 0 20px 50px rgba(255, 79, 216, 0.18);
+  }
   .card h2 { margin: 0 0 0.35rem; font-size: 1.25rem; display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
   .tag {
     font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
     padding: 0.2rem 0.55rem; border-radius: 0.4rem;
     background: linear-gradient(135deg, rgba(255, 79, 216, 0.25), rgba(77, 232, 255, 0.2));
     border: 1px solid rgba(255, 79, 216, 0.35); color: var(--text);
+  }
+  .tag.latest {
+    background: linear-gradient(135deg, rgba(255, 79, 216, 0.45), rgba(77, 232, 255, 0.35));
+    border-color: rgba(255, 79, 216, 0.6);
   }
   .meta { color: var(--muted); font-size: 0.9rem; margin: 0 0 1rem; }
   video, audio {
@@ -79,8 +87,28 @@
     <header>
       <div class="badge">Nightcore · Romantic · Emotional</div>
       <h1>Neon Heartbeat</h1>
-      <p class="subtitle">Watch both cuts of the MV, then grab the downloads — videos and the nightcore track.</p>
+      <p class="subtitle">Watch the MV cuts, then grab the downloads — videos and the nightcore track.</p>
     </header>
+
+    <section class="card latest">
+      <h2>Version 6 <span class="tag latest">Latest · Animated lyrics</span></h2>
+      <p class="meta">Kinetic typography cook — sung-accurate timing, letter-slam chorus, color-safe composite. Face-clear lyric placement.</p>
+      <video id="v6" controls playsinline preload="metadata"></video>
+      <div class="actions">
+        <button class="btn" id="dl6" type="button">Download v6</button>
+        <span class="status" id="st6">Loading video…</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Version 5 <span class="tag">Previous</span></h2>
+      <p class="meta">More camera motion, stronger beat cuts, chorus bursts and close-ups.</p>
+      <video id="v5" controls playsinline preload="metadata"></video>
+      <div class="actions">
+        <button class="btn" id="dl5" type="button">Download v5</button>
+        <span class="status" id="st5">Loading video…</span>
+      </div>
+    </section>
 
     <section class="card">
       <h2>Version 4 <span class="tag">Preview cut</span></h2>
@@ -89,16 +117,6 @@
       <div class="actions">
         <button class="btn" id="dl4" type="button">Download v4</button>
         <span class="status" id="st4">Loading video…</span>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>Version 5 <span class="tag">Latest</span></h2>
-      <p class="meta">More camera motion, stronger beat cuts, chorus bursts and close-ups.</p>
-      <video id="v5" controls playsinline preload="metadata"></video>
-      <div class="actions">
-        <button class="btn" id="dl5" type="button">Download v5</button>
-        <span class="status" id="st5">Loading video…</span>
       </div>
     </section>
 
@@ -117,8 +135,9 @@
 <script>
 const ROOT = "https://raw.githubusercontent.com/MehmetMilly/neon-heartbeat/main/";
 const ASSETS = {
-  v4: { parts: 11, prefix: ROOT + "media/chunks/v4.", mime: "video/mp4", name: "Neon_Heartbeat_v4.mp4", video: "v4", status: "st4", dl: "dl4" },
+  v6: { parts: 19, prefix: ROOT + "media/chunks/v6.", mime: "video/mp4", name: "Neon_Heartbeat_v6.mp4", video: "v6", status: "st6", dl: "dl6" },
   v5: { parts: 14, prefix: ROOT + "media/chunks/v5.", mime: "video/mp4", name: "Neon_Heartbeat_v5.mp4", video: "v5", status: "st5", dl: "dl5" },
+  v4: { parts: 11, prefix: ROOT + "media/chunks/v4.", mime: "video/mp4", name: "Neon_Heartbeat_v4.mp4", video: "v4", status: "st4", dl: "dl4" },
   song: { parts: 1, prefix: ROOT + "media/chunks/song", mime: "audio/mpeg", name: "neon_heartbeat_nightcore.mp3", video: "song", status: "sts", dl: "dls", single: true }
 };
 
@@ -162,7 +181,7 @@ async function loadAsset(key) {
   }
 }
 
-Promise.all([loadAsset("v4"), loadAsset("v5"), loadAsset("song")]);
+Promise.all([loadAsset("v6"), loadAsset("v5"), loadAsset("v4"), loadAsset("song")]);
 </script>
 </body>
 </html>
