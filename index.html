@@ -115,10 +115,11 @@
     <footer>Made for Mehmet · <span>Neon Heartbeat</span></footer>
   </div>
 <script>
+const ROOT = "https://cdn.jsdelivr.net/gh/MehmetMilly/neon-heartbeat@main/";
 const ASSETS = {
-  v4: { parts: 11, prefix: "media/chunks/v4.", mime: "video/mp4", name: "Neon_Heartbeat_v4.mp4", video: "v4", status: "st4", dl: "dl4" },
-  v5: { parts: 14, prefix: "media/chunks/v5.", mime: "video/mp4", name: "Neon_Heartbeat_v5.mp4", video: "v5", status: "st5", dl: "dl5" },
-  song: { parts: 1, prefix: "media/chunks/song", mime: "audio/mpeg", name: "neon_heartbeat_nightcore.mp3", video: "song", status: "sts", dl: "dls", single: true }
+  v4: { parts: 11, prefix: ROOT + "media/chunks/v4.", mime: "video/mp4", name: "Neon_Heartbeat_v4.mp4", video: "v4", status: "st4", dl: "dl4" },
+  v5: { parts: 14, prefix: ROOT + "media/chunks/v5.", mime: "video/mp4", name: "Neon_Heartbeat_v5.mp4", video: "v5", status: "st5", dl: "dl5" },
+  song: { parts: 1, prefix: ROOT + "media/chunks/song", mime: "audio/mpeg", name: "neon_heartbeat_nightcore.mp3", video: "song", status: "sts", dl: "dls", single: true }
 };
 
 function pad2(n) { return String(n).padStart(2, "0"); }
